@@ -50,8 +50,8 @@ only being tested with Node v8.10.x.
 The flow of control thru the files...
 
 faas-local -->  
-server.js (if 'serve' command specified) -->
-http_handler.js -->
+server.js (if 'serve' command specified) -->  
+http_handler.js -->  
 lamwrap.js --(childprocess.fork)-->   
 lamfork_child.js  -->  
   User's Lambda entry point
