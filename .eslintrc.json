@@ -1,0 +1,99 @@
+{
+  // 2018-06-02
+  // More minor adjustments and add justifications from here:
+  // https://github.com/airbnb/javascript/issues/1089  
+
+  // 2018-01-24
+  // Now copying it back to bots project.
+
+  // 2017-11-12 
+  // Copied this from my c9/bots workspace - where it was just a WIP - to options (fb functions, vsc) workspace.
+
+  // http://eslint.org/docs/user-guide/configuring
+  // Note: yes, eslint supports js style comments in json config file.
+
+  "extends": "airbnb-base",
+  // https://github.com/airbnb/javascript
+
+  "env" : {
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+      "log": false,
+      "err": false
+  },
+
+  "rules" : {
+
+    "max-len" : ["warn", {
+        "code": 100,
+        "comments": 120,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true
+    } ],   // eslint def = 80, but airbnb = 100
+
+    "linebreak-style": "off",
+    // allow either style, cause the default for git config core.autocrlf appears to be 'true'.
+    // See extended discussion here: https://github.com/airbnb/javascript/pull/1224 .
+
+    "no-plusplus" : "off",
+    // This is a very common change (https://github.com/airbnb/javascript/issues/1089).
+
+    // I don't see any problem with breaking this rule for functions.
+    // And this is a very common change (https://github.com/airbnb/javascript/issues/1089).
+    "no-use-before-define": ["error", {
+        "functions": false,
+        "classes": true,
+        "variables": true        
+      }
+    ],
+
+    "curly" : "off",
+    "yoda" : ["warn", "always"],  // So airbnb has yoda : "never"?  why?
+
+    "padded-blocks" : "off",  // I like padding my blocks with blanks line sometimes - has meaning for me.
+    
+    // Justification for some exceptions, particularly these spacing ones...
+    // https://medium.freecodecamp.org/adding-some-air-to-the-airbnb-style-guide-3df40e31c57a
+    // spacing (I will enable them as needed)
+    "space-in-parens": "off",
+      // airbnb="never", article above="always"
+      // I do "always" except in require() statements.
+    //"template-curly-spacing": [ 2, "always" ],
+    //"array-bracket-spacing": [ 2, "always" ],
+    //"object-curly-spacing": [ 2, "always" ],
+    //"computed-property-spacing": [ 2, "always" ],
+    //"no-multiple-empty-lines": [ 2, { "max": 1, "maxEOF": 0, "maxBOF": 0 } ],
+    // and some of my own...
+    "spaced-comment": ["warn", "always", { "markers": ["#region", "#endregion"] }],
+    // Allow #region & #endregion as exceptions (markers).  Note that vscode also support region/endregion (w/o the pound).
+    // It seems that #region is more commmon in vscode (and VS and C#), but without the pound is more common in IntelliJ/AS.
+    "space-before-function-paren" : "off",
+
+    // lines-around-directive is deprecated (in favour of 'padding-line-between-statements'),
+    // and I don't like the extra lines around 'use strict'.
+    // https://eslint.org/docs/rules/lines-around-directive"
+    "lines-around-directive" : "off",
+
+    // no-trailing-spaces - I guess a good idea but just too annoying, so I dilute it a bit (it is normally "error").
+    // https://eslint.org/docs/rules/no-trailing-spaces
+    "no-trailing-spaces" : ["warn", { "ignoreComments": true, "skipBlankLines": true } ],
+    
+    // https://github.com/airbnb/javascript/issues/840
+    "no-restricted-syntax" : [
+      0,
+      "ForInStatement"
+    ],
+
+    // Try to get rid of these exceptions
+    // "func-names" : "off",
+    // "prefer-arrow-callback" : "off",
+    // "prefer-template" : "warn",
+    // "no-lonely-if" : "off"  // would do 'warn' but it marks the entire block - too ugly
+
+    // For this (faas-local) module:
+    "no-console" : "off"   
+
+  } // end of "rules"
+}

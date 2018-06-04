@@ -1,0 +1,125 @@
+#!/usr/bin/env node  
+// front_cmd.js - command-line front-end
+
+//#region require
+require('dotenv').config(); // do this first to load configuration of debug module.
+// To clarify... I do same for target module, in lamfork_child, but loading from .env from its path.
+
+const log = require('debug')('index:log');
+const error = require('debug')('index:error'); // eslint-disable-line
+
+const cmd = require( 'commander' );
+const path = require('path');
+// const fs = require('fs');
+
+// const server = require( './server' );
+const lamforker = require( './lamforker' );
+//#endregion require
+
+if (!process.env.DEBUG)
+  console.log( '(set DEBUG=* to enable debug logging of faas-local.)' );
+
+// Get info about me
+const myPackage = require('./package.json');
+// https://stackoverflow.com/a/10855054/150016
+// But 'root-require' didn't work for me. (not found).
+
+// Commander
+// https://www.npmjs.com/package/commander
+cmd
+  .command( 'run' )
+  .description( 'Run lambda (at path, or cwd)')
+  .option('-e, --eventFile [EVENT_FILE]', 'event (request) file' )
+  .option('-p, --lambdaPath [LAMBDA_PATH]', 'path to the Lamba/Function package (if not cwd)' )
+  // .option('-s, --silent', 'silent (overrides DEBUG=*)' )
+  // No, --silent would only partially work - for stuff after this point in file (not stuff required above).
+  .action( (arg) => {
+    doRun(arg);
+  } );
+
+cmd
+  .command( 'serve' )
+  .description( 'Listen on HTTP and relay incoming requests to local lambda.' )
+  .option('-p, --lambdaPath [LAMBDA_PATH]', 'path to the Lamba/Function package (if not cwd)' )
+  .action( (arg) => {
+    doServe(arg);
+  } );
+
+
+const context = { };
+
+// Now process cmd.
+cmd
+  .version( myPackage.version, '-v, --version')
+  .parse( process.argv );
+  
+// Show help is no cmd is specified.
+if (0 === cmd.args.length)
+  console.log( cmd.help() );
+
+
+function doRun(arg) {
+  log( 'doRun(arg)' ); // arg is an object with lots of properties
+  const event = getEvent( arg );
+  
+  if (!findPaths( arg )) // sticks them in context
+    return;
+  
+  lamforker( event, context );
+}
+
+function doServe(arg) {
+  log( 'doServe(arg)' );
+
+  if (!findPaths( arg )) // sticks them in context
+    return;
+  
+  // server was a script; needs to be reorg'ed as a module, then it wouldn't need to be required here.
+  const server = require( './server' ); // eslint-disable-line global-require
+  server.init( context );
+  server.launch();
+}
+
+
+function getEvent( args ) {
+  // Event file option 
+  let { eventFile } = args;
+  if (!args.eventFile) {
+    eventFile = 'eventSample.json';
+    log( `No event file specified so using sample file ${eventFile}` );
+  }
+  // const event = require( path.join(process.cwd(), args.eventFile))
+  const event = require( './' + eventFile ); // eslint-disable-line
+  return event;
+}
+
+function findPaths( args ) {
+  // Lambda package path & entry point
+  let dir = process.cwd();
+  if (args.lambdaPath)
+    dir = args.lambdaPath;
+  const packageFilespec = path.join( dir, 'package.json');
+  let packageJson = null;
+  try {
+    packageJson = require( packageFilespec ); // eslint-disable-line
+  } catch ( e ) {
+    console.error( `package.json for lambda not found at ${packageFilespec}.` );
+    return null;
+  }
+  if (!packageJson.main) {
+    console.error( 'package.json has no main.' );
+    return null;
+  }
+  const lhFilespec = path.join( dir, packageJson.main );
+  log( `Will use handler = ${lhFilespec}` );
+  if (myPackage.name === packageJson.name) {
+    console.error( 'Wat.  Lambda handler is me!  You need to specify something else.' );
+    return null;
+  }
+  
+  context.fw_lam_path = dir;
+  context.fw_lam_main = lhFilespec;
+  
+  return context;
+  
+}

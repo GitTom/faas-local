@@ -1,0 +1,30 @@
+{
+  "context": {
+    "System": {
+      "application": {
+        "applicationId": "amzn1.echo-sdk-ams.app.507650d1-f3b0-400a-90a1-cba9324f9083"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AFP3ZWPOS2BGJR7OWJZ3DHPKMOMNWY4AY66FUR7ILBWANIHQN73QGGLTCA6LGJ7Q5ZYTGMENI67O6ZK6ZJ5LGKI254O2O34SNQRNXSQWFECQQ5YEJOI5XJDCVT6FMR5RGTXDNGKBVDEOYY23JV6GHHLZEV2BP4PMBMM7LPFL7MLGMPIWFPHRUYMFRIF74JNJLLSHFVW6C7EJ4FA"
+      }
+    }
+  },
+  "session": {
+    "sessionId": "SessionId.3b0a4601-b114-4812-977f-b1bfe0757fdf",
+    "application": {
+      "applicationId": "amzn1.echo-sdk-ams.app.507650d1-f3b0-400a-90a1-cba9324f9083"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AFP3ZWPOS2BGJR7OWJZ3DHPKMOMNWY4AY66FUR7ILBWANIHQN73QGGLTCA6LGJ7Q5ZYTGMENI67O6ZK6ZJ5LGKI254O2O34SNQRNXSQWFECQQ5YEJOI5XJDCVT6FMR5RGTXDNGKBVDEOYY23JV6GHHLZEV2BP4PMBMM7LPFL7MLGMPIWFPHRUYMFRIF74JNJLLSHFVW6C7EJ4FA"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "LaunchRequest",
+    "requestId": "EdwRequestId.ea84040c-0582-4a31-a121-29f0c41b77d8",
+    "locale": "en-US",
+    "timestamp": "2016-09-29T19:43:41Z"
+  },
+  "version": "1.0"
+}

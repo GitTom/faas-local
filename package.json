@@ -1,0 +1,22 @@
+{
+  "name": "faas-local",
+  "version": "0.1.1",
+  "description": "A nodejs FaaS container/runner & an optional HTTP server that relays requests to it.",
+  "bin": "./faas-local",
+  "scripts": {
+    "eslint": "eslint *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:GitTom/func-wrap.git"
+  },
+  "author": "Tom",
+  "license": "Apache-2.0",
+  "private": false,
+  "dependencies": {
+    "commander": "^2.15.1",
+    "debug": "^2.2.0",
+    "dotenv": "^5.0.1",
+    "moment": "^2.13.0"
+  }
+}
