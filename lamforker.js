@@ -80,6 +80,11 @@ function handler( event, context ) {
     // When debugging, child attempts to use same debug port as parents which causes err
     // https://github.com/Microsoft/nodejstools/issues/575
 
+    // How about using inspect API for debugging (available in node v >= 8)?
+    // https://nodejs.org/en/docs/guides/debugging-getting-started/
+    // Would add '--inspect' parameter for new node instance forked here, so only the child processes (not parent)
+    // would get debugged.  Would each child need to listen on different port in case they are concurrent?
+
     child_proc.on( 'message', (message) => {
       log( 'Recieved msg from child process - send back to client.' );
       if (!message)
